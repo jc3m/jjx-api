@@ -61,5 +61,5 @@ typings/
 conf/*
 
 # Vim swap files
-.swp
+*.swp
 
