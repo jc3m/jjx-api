@@ -19,14 +19,16 @@ router.get('/', (req, res, next) => {
       return next(err);
     }
 
-    const links = [];
+    const prefix = `${params.Bucket}.s3.amazonaws.com`;
+    const keys = [];
     data.Contents.forEach((d) => {
-      links.push(`${params.Bucket}.s3.amazonaws.com/${d.Key}`);
+      keys.push(d.Key);
     });
 
     return res.json({
       success: true,
-      links,
+      prefix,
+      keys,
     });
   });
 });

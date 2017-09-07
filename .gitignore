@@ -58,7 +58,7 @@ typings/
 .env
 
 # Config files
-conf/*
+conf/aws.js
 
 # Vim swap files
 *.swp

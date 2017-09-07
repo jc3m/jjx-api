@@ -15,11 +15,11 @@ router.get('/iamrahul', (req, res, next) => {
     address: {
       street: 'Bhangra Ave',
       city: 'Browntown',
-      Country: 'USA'
+      Country: 'USA',
     },
     height: 4.2,
     netWorth: 6.9,
-    status: 'cuck'
+    status: 'cuck',
   });
 });
 
