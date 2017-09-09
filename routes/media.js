@@ -1,6 +1,7 @@
 const express = require('express');
 const AWS = require('aws-sdk');
 
+const mediaModel = require('../model/media');
 const AWSConfig = require('../conf/aws');
 
 const router = express.Router();
@@ -10,7 +11,23 @@ const s3 = new AWS.S3({
   secretAccessKey: AWSConfig.awsSecretAccessKey,
 });
 
+const s3Prefix = `${AWSConfig.s3Bucket}.s3.amazonaws.com`;
+
 router.get('/', (req, res, next) => {
+  mediaModel.getMedia((err, docs) => {
+    if (err) {
+      return next(err);
+    }
+    
+    return res.json({
+      success: true,
+      s3Prefix,
+      docs
+    });
+  });
+});
+
+router.get('/list', (req, res, next) => {
   const params = {
     Bucket: AWSConfig.s3Bucket,
   };
@@ -19,7 +36,6 @@ router.get('/', (req, res, next) => {
       return next(err);
     }
 
-    const prefix = `${params.Bucket}.s3.amazonaws.com`;
     const keys = [];
     data.Contents.forEach((d) => {
       keys.push(d.Key);
@@ -27,7 +43,8 @@ router.get('/', (req, res, next) => {
 
     return res.json({
       success: true,
-      prefix,
+      message: 'Warning - Deprecated',
+      prefix: s3Prefix,
       keys,
     });
   });

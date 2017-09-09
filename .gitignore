@@ -59,6 +59,7 @@ typings/
 
 # Config files
 conf/aws.js
+conf/secure.js
 
 # Vim swap files
 *.swp

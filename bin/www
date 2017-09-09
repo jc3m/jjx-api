@@ -3,10 +3,11 @@
 /**
  * Module dependencies.
  */
-
-const app = require('../app');
 const chalk = require('chalk');
 const http = require('http');
+
+const app = require('../app');
+const db = require('../model');
 
 /**
  * Get port from environment and store in Express.
@@ -21,12 +22,14 @@ app.set('port', port);
 const server = http.createServer(app);
 
 /**
- * Listen on provided port, on all network interfaces.
+ * Connect to MongoDB, then listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+db.initializeConnection(() => {
+  server.listen(port);
+  server.on('error', onError);
+  server.on('listening', onListening);
+});
 
 /**
  * Event listener for HTTP server "listening" event.
