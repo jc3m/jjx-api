@@ -7,9 +7,9 @@ function getMedia(callback) {
     if (err) {
       callback(err);
     }
-    col.find().toArray((err, docs) => {
-      if (err) {
-        callback(err);
+    col.find().toArray((cerr, docs) => {
+      if (cerr) {
+        callback(cerr);
       }
       callback(null, docs);
     });

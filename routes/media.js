@@ -18,11 +18,11 @@ router.get('/', (req, res, next) => {
     if (err) {
       return next(err);
     }
-    
+
     return res.json({
       success: true,
       s3Prefix,
-      docs
+      docs,
     });
   });
 });
