@@ -51,4 +51,3 @@ router.get('/list', (req, res, next) => {
 });
 
 module.exports = router;
-

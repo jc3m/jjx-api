@@ -1,0 +1,30 @@
+version: "3"
+services:
+  web:
+    image: jc3m/jjx-watch
+    networks:
+      - watchnet
+    ports:
+      - "80:80"
+  api:
+    image: jc3m/jjx-api
+    networks:
+      - watchnet
+    environment:
+      PORT: 3000
+      AWS_ACCESS_KEY: ${AWS_ACCESS_KEY}
+      AWS_SECRET_KEY: ${AWS_SECRET_KEY}
+      S3_BUCKET: ${S3_BUCKET}
+      DB_URL: "mongodb://mongo/jjx"
+    ports:
+      - "3000:3000"
+  mongo:
+    image: mongo
+    volumes:
+      - "dbdata:/data/db"
+    networks:
+      - watchnet
+volumes:
+  dbdata:
+networks:
+  watchnet:

@@ -57,10 +57,8 @@ typings/
 # dotenv environment variables file
 .env
 
-# Config files
-conf/aws.js
-conf/secure.js
+# Mac files
+.DS_store
 
 # Vim swap files
 *.swp
-

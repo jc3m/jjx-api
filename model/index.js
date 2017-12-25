@@ -8,14 +8,23 @@ const conf = require('../conf/secure');
 let db;
 
 function initializeConnection(callback) {
+  initConnectionBackoff(callback, 0);
+}
+
+function initConnectionBackoff(callback, iteration) {
   mongodb.MongoClient.connect(conf.mongodbURI, (err, pDb) => {
-    if (err) {
+    if (err && iteration < 7) {
+      const sleep = 100 * Math.pow(2, iteration);
+      console.log(chalk.yellow(`Connection failed, retrying, iteration ${iteration}`));
+      setTimeout(() => initConnectionBackoff(callback, iteration + 1), sleep);
+    } else if (err) {
       console.log(chalk.red(err));
       process.exit(1);
+    } else {
+      console.log(chalk.cyan('Connected to MongoDB'));
+      db = pDb;
+      callback();
     }
-    console.log(chalk.cyan('Connected to MongoDB'));
-    db = pDb;
-    callback();
   });
 }
 

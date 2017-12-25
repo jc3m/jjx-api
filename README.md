@@ -1,13 +1,11 @@
 # Backend API
 
-Place your AWS Access Key and Secret Key in `conf/aws.js` in the format
+The following environmental variables should be specified
 
 ```
-module.exports = {
-  awsAccessKeyId: '...',
-  awsSecretAccessKey: '...',
-  s3Bucket: '...',
-  urlBase: 's3.amazonaws.com'
-};
-```
+AWS_ACCESS_KEY
+AWS_SECRET_KEY
+S3_BUCKET
 
+DB_URL
+```
