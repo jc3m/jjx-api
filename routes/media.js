@@ -1,7 +1,7 @@
 const express = require('express');
 const AWS = require('aws-sdk');
 
-const mediaModel = require('../model/media');
+const movieModel = require('../model/movie');
 const AWSConfig = require('../conf/aws');
 
 const router = express.Router();
@@ -14,17 +14,15 @@ const s3 = new AWS.S3({
 const s3Prefix = `${AWSConfig.s3Bucket}.s3.amazonaws.com`;
 
 router.get('/', (req, res, next) => {
-  mediaModel.getMedia((err, docs) => {
-    if (err) {
-      return next(err);
-    }
-
-    return res.json({
-      success: true,
-      s3Prefix,
-      docs,
+  movieModel.getMovies()
+    .then((docs) => {
+      res.json({
+        movies: docs,
+        shows: [],
+      });
+    }).catch((err) => {
+      next(err);
     });
-  });
 });
 
 router.get('/list', (req, res, next) => {

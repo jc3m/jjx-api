@@ -33,7 +33,15 @@ function getDb() {
 }
 
 function getCollection(collectionName, callback) {
-  db.collection(collectionName, callback);
+  return new Promise((resolve, reject) => {
+    db.collection(collectionName, (err, collection) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(collection);
+      }
+    });
+  });
 }
 
 module.exports = {
