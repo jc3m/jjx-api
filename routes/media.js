@@ -25,6 +25,15 @@ router.get('/', (req, res, next) => {
     });
 });
 
+router.post('/movies', (req, res, next) => {
+  movieModel.addMovie(req.body.title, req.body.url)
+    .then(() => {
+      res.json({});
+    }).catch((err) => {
+      next(err);
+    });
+});
+
 router.get('/list', (req, res, next) => {
   const params = {
     Bucket: AWSConfig.s3Bucket,

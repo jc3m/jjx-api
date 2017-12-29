@@ -11,6 +11,7 @@ app.use(morgan('common')); // Logging
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+// Routes
 app.use('/', require('./routes/index'));
 app.use('/media', require('./routes/media'));
 
@@ -27,7 +28,7 @@ app.use((err, req, res, next) => {
   if (!err.status || err.status >= 500) {
     console.log(chalk.red(err));
   }
-  res.json({ success: false, error: err.message });
+  res.json({ error: err.message });
 });
 
 module.exports = app;

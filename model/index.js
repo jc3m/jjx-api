@@ -3,7 +3,7 @@
 const mongodb = require('mongodb');
 const chalk = require('chalk');
 
-const conf = require('../conf/secure');
+const conf = require('../conf/mongodb');
 
 let db;
 
@@ -28,6 +28,11 @@ function initConnectionBackoff(callback, iteration) {
   });
 }
 
+async function initializeIndicies() {
+  const movieCol = await getCollection(require('./movie').COLLECTION_NAME);
+  movieCol.createIndex({ 'title': 1 });
+}
+
 function getDb() {
   return db;
 }
@@ -46,7 +51,7 @@ function getCollection(collectionName, callback) {
 
 module.exports = {
   initializeConnection,
+  initializeIndicies,
   getCollection,
   getDb,
 };
-
