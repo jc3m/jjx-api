@@ -10,7 +10,7 @@ const http = require('http');
 
 const app = require('../app');
 const db = require('../model');
-
+const indicies = require('../model/indicies');
 
 /**
  * Get port from environment and store in Express.
@@ -29,11 +29,14 @@ const server = http.createServer(app);
  */
 
 db.initializeConnection(() => {
-  db.initializeIndicies().then(() => {
-    server.listen(port);
-    server.on('error', onError);
-    server.on('listening', onListening);
-  });
+  indicies.initialize()
+    .then(() => {
+      server.listen(port);
+      server.on('error', onError);
+      server.on('listening', onListening);
+    }).catch((err) => {
+      console.log(chalk.red(`Error initializating indicies: ${err}`));
+    });
 });
 
 /**

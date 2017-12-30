@@ -1,8 +1,8 @@
 const db = require('./index');
 
-const COLLECTION_NAME = 'movies';
+const COLLECTION_NAME = 'shows';
 
-async function getMovies() {
+async function getShows() {
   const col = await db.getCollection(COLLECTION_NAME);
 
   return new Promise((resolve, reject) => {
@@ -16,13 +16,27 @@ async function getMovies() {
   });
 }
 
-async function addMovie(title, url) {
+async function getShowTitle(showId) {
+  const col = await db.getCollection(COLLECTION_NAME);
+
+  return new Promise((resolve, reject) => {
+    col.findOne({ showId }, { title: 1 }, {}, (err, doc) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(doc.title);
+      }
+    });
+  });
+}
+
+async function addShow(title, showId) {
   const col = await db.getCollection(COLLECTION_NAME);
 
   return new Promise((resolve, reject) => {
     col.insertOne({
       title,
-      ref: url,
+      showId,
     }, null, (err) => {
       if (err) {
         reject(err);
@@ -35,6 +49,7 @@ async function addMovie(title, url) {
 
 module.exports = {
   COLLECTION_NAME,
-  getMovies,
-  addMovie,
+  getShows,
+  getShowTitle,
+  addShow,
 };
